@@ -1,0 +1,9 @@
+name: EasyGUI
+main: pw.owen.easygui.main.Main
+version: 1.0.0
+commands:
+  GUI:
+    description: by owen
+    usage: §c[EasyGUI]§5参数错误,您可以使用/GUI help命令排查错误.
+    permission: EasyGUI
+    permission-message: §c[EasyGUI]§5您没有<EasyGUI>权限
