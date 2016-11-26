@@ -20,9 +20,10 @@ public boolean call(InventoryClickEvent event,GUI gui);
  * 当换页之后或者创建一个新的Inventory时,调用GUI内每个被注册的事件refresh方法
  * @param gui 所属GUI实例
  * @param p 所属玩家
+ * @param slot 物品所在位置
  * @return 返回更新后的物品堆栈
  */
-public ItemStack refresh(GUI gui,Player p);
+public ItemStack refresh(GUI gui,Player p,int slot);
 /**
  * 当call方法执行完毕时,调用changePage方法
  * @param gui 所属GUI实例

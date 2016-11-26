@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  *  @see GUI
  * @author owen
- * @version 1.0.0
+ * @version 1.0.1
  * 对Bukkit的箱子GUI进行包装,事件化的快捷工具类.对与本类对象的管理API不提供任何帮助,请自行管理,或者使用inventory.getHolder()获取对象.
  */
 public class GUI implements InventoryHolder{
@@ -23,6 +23,9 @@ public class GUI implements InventoryHolder{
 	private int row=1;
 	private Map<Integer,GUIEvent> events=new HashMap<Integer, GUIEvent>();
 	private int page=1;
+	
+	
+	
 	
 	/**
 	 * 
@@ -188,7 +191,7 @@ public class GUI implements InventoryHolder{
 			inventorys.put(p.getName(), inventory);
 			
 			for(Integer key:events.keySet()){
-			ItemStack item = events.get(key).refresh(this, p);
+			ItemStack item = events.get(key).refresh(this, p,key);
 			if(item!=null)
 				inventory.setItem(key,item );
 			}

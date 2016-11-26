@@ -21,17 +21,18 @@ public GUIEventModel(ItemStack item) {
 
 
 	@Override
-		public ItemStack refresh(GUI gui, Player p) {
-			return refreshItem(gui,p,item);
+		public ItemStack refresh(GUI gui, Player p,int slot) {
+			return refreshItem(gui,p,slot,item);
 		}
 
 	/**
 	 * 继承本类重写refreshItem方法而不是refresh,写法一样,提供创建对象时传入的物品堆栈模板
 	 * @param gui 所属GUI实例
 	 * @param p 所属玩家
+	 * @param slot 物品所在位置
 	 * @param item 物品堆栈模板
 	 * @return 返回刷新后的物品堆栈
 	 */
-	public abstract ItemStack refreshItem(GUI gui, Player p, ItemStack item);
+	public abstract ItemStack refreshItem(GUI gui, Player p,int slot, ItemStack item);
 	
 }
