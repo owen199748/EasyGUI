@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -18,14 +19,21 @@ import org.bukkit.inventory.ItemStack;
 public class GUI implements InventoryHolder{
 	private String name;
 	private String title;
+	private InventoryType type;
 	private boolean multiInstance =	true;
 	private Map<String,Inventory> inventorys = new HashMap<String, Inventory>();
 	private int row=1;
 	private Map<Integer,GUIEvent> events=new HashMap<Integer, GUIEvent>();
 	private int page=1;
 	
-	
-	
+	/**
+	 * 
+	 * 返回这个GUI的类型（NULL=箱子）
+	 * @return 页数
+	 */
+	public InventoryType getType() {
+		return type;
+	}
 	
 	/**
 	 * 
@@ -135,12 +143,18 @@ public class GUI implements InventoryHolder{
 		this.name=name;
 		this.title=title;
 		this.row=row;
+		this.type=null;
 		this.multiInstance=multiInstance;
 		}
-
+		private GUI(String name, InventoryType type,String title,boolean multiInstance) {
+		this.name=name;
+		this.title=title;
+		this.type=type;
+		this.multiInstance=multiInstance;
+		}
 		
 		/**
-		 *  创建一个GUI
+		 *  创建一个箱子GUI
 		 * @param name 名称(无实际作用,仅用于区分)
 		 * @param title 标题
 		 * @param guiRow 行数
@@ -150,7 +164,7 @@ public class GUI implements InventoryHolder{
 		public static GUI createGUI(String name,String title,GUIRow guiRow,boolean multiInstance){ return createGUI(name, title,guiRow.getRow(),multiInstance); }
 		
 		/**
-		 *  创建一个GUI
+		 *  创建一个箱子GUI
 		 * @param name 名称(无实际作用,仅用于区分)
 		 * @param title 标题
 		 * @param row 行数
@@ -158,6 +172,16 @@ public class GUI implements InventoryHolder{
 		 * @return 返回创建后的GUI对象
 		 */
 		public static GUI createGUI(String name,String title,int row,boolean multiInstance){return new GUI(name,row,title,multiInstance);}
+
+		/**
+		 *  创建一个其他GUI
+		 * @param name 名称(无实际作用,仅用于区分)
+		 * @param title 标题
+		 * @param type GUI类型
+		 * @param multiInstance 是否多实例(为真时每次刷新都会创建新的箱子GUI)
+		 * @return 返回创建后的GUI对象
+		 */
+		public static GUI createGUI(String name,String title,InventoryType type,boolean multiInstance){return new GUI(name,type,title,multiInstance);}
 
 		/**
 		 *  让一个玩家打开GUI
@@ -178,16 +202,19 @@ public class GUI implements InventoryHolder{
 			Inventory inventory=null;
 			
 			if(multiInstance)
-			inventory=Bukkit.createInventory(this, row*9,title);
+			inventory=createInventory();
 			else
 			{	inventory=inventorys.get(p.getName());
 			if(inventory==null){
-				inventory=Bukkit.createInventory(this, row*9,title);
+				inventory=createInventory();
 				p.closeInventory();
 				p.openInventory(inventory);
 				p.updateInventory();
 			}
 			}	
+			
+			
+			
 			inventorys.put(p.getName(), inventory);
 			
 			for(Integer key:events.keySet()){
@@ -203,6 +230,11 @@ public class GUI implements InventoryHolder{
 			p.updateInventory();
 			}
 		
+		private Inventory createInventory() {
+			if(type==null) return Bukkit.createInventory(this, row*9,title);
+			else return Bukkit.createInventory(this, type,title);
+		}
+
 		/**
 		 *  弃用该方法,永久返回空值
 		 * @return 返回空值

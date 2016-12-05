@@ -1,6 +1,6 @@
 name: EasyGUI
 main: pw.owen.easygui.main.Main
-version: 1.0.1
+version: 1.0.2
 commands:
   GUI:
     description: by owen
