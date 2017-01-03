@@ -2,6 +2,8 @@ package pw.owen.easygui.main;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -17,19 +19,27 @@ public interface GUIEvent {
 	 */
 public boolean call(InventoryClickEvent event,GUI gui);
 /**
+ * 当关闭GUI时,调用每个被注册的事件close方法
+ * @param event 关闭库存事件
+ * @param gui 所属GUI实例
+ */
+public void close(InventoryCloseEvent event,GUI gui);
+/**
  * 当换页之后或者创建一个新的Inventory时,调用GUI内每个被注册的事件refresh方法
+ * @param inventory 当前库存实例
  * @param gui 所属GUI实例
  * @param p 所属玩家
  * @param slot 物品所在位置
  * @return 返回更新后的物品堆栈
  */
-public ItemStack refresh(GUI gui,Player p,int slot);
+public ItemStack refresh(Inventory inventory,GUI gui,Player p,int slot);
 /**
  * 当call方法执行完毕时,调用changePage方法
+ * @param inventory 当前库存实例
  * @param gui 所属GUI实例
  * @param p 所属玩家
  * @return 返回修改后的页数(-1表示不修改,并且不调用refresh方法)
  */
-public int changePage(GUI gui,Player p);
+public int changePage(Inventory inventory,GUI gui,Player p);
 
 }

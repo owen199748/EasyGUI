@@ -25,9 +25,15 @@ public class GUI implements InventoryHolder{
 	private int row=1;
 	private Map<Integer,GUIEvent> events=new HashMap<Integer, GUIEvent>();
 	private int page=1;
+	/**
+	 * 返回所有被注册的事件
+	 * @return 事件Map
+	 */
+	Map<Integer, GUIEvent> getEvents() {
+		return events;
+	}
 	
 	/**
-	 * 
 	 * 返回这个GUI的类型（NULL=箱子）
 	 * @return 页数
 	 */
@@ -218,7 +224,7 @@ public class GUI implements InventoryHolder{
 			inventorys.put(p.getName(), inventory);
 			
 			for(Integer key:events.keySet()){
-			ItemStack item = events.get(key).refresh(this, p,key);
+			ItemStack item = events.get(key).refresh(inventory,this, p,key);
 			if(item!=null)
 				inventory.setItem(key,item );
 			}
